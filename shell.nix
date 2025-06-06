@@ -7,6 +7,7 @@ let
   clang = pkgs.clang_16;
   llvm = pkgs.llvm_16;
   gibbon_dir = builtins.toString ./.;
+  ocpkg = import ./opencilk.nix { inherit pkgs; };
 in
   with pkgs;
 
@@ -20,6 +21,8 @@ in
 
     name = "basicGibbonEnv";
     buildInputs = [
+                    # OpenCilk
+                    ocpkg.myOpenCilk
                     # C/C++
                     clang llvm gcc7 boehmgc uthash
                     # Rust
@@ -31,5 +34,9 @@ in
                   ];
     shellHook = ''
       export GIBBONDIR=${gibbon_dir}
+      echo "🚀 OpenCilk (v2.1) is now on your PATH:"
+      echo "    $(which clang)"       # Should point to $ocpkg/bin/clang
+      echo "    $(which clang++)"
+      export PATH=$PATH:${ocpkg.myOpenCilk}/bin
     '';
   }

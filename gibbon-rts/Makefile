@@ -26,13 +26,17 @@
 # ======================================================================
 
 
-CC        := gcc
-AR        := gcc-ar
-CFLAGS    := -Wall -Wextra -Wpedantic -Wshadow -Werror -std=gnu11 -flto
-RSC       := cargo
+CC        := clang
+AR        := llvm-ar
+CFLAGS := -Wall -Wextra -Wpedantic -Wshadow -std=gnu11 \
+          -Wno-error=deprecated-declarations \
+          -Wno-error=strict-prototypes \
+          -Wno-error=format-pedantic \
+          -Wno-error=language-extension-token
+RSC	   := cargo
 RSFLAGS   := -v
 VERBOSITY := 1
-MODE      := release
+MODE      := debug
 
 EAGER_PROMOTION      ?= 1
 BURN                 ?= 1
@@ -66,7 +70,7 @@ ifeq ($(POINTER), 1)
 endif
 
 ifeq ($(PARALLEL), 1)
-	CFLAGS += -fcilkplus -D_GIBBON_PARALLEL
+	CFLAGS += -fopencilk -D_GIBBON_PARALLEL
 endif
 
 ifeq ($(BUMPALLOC), 1)

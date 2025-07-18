@@ -514,7 +514,7 @@ compilationCmd LLVM _   = "clang-5.0 lib.o "
 compilationCmd C config = (cc config) ++" -std=gnu11 "
                           ++(if bumpAlloc then " -D_GIBBON_BUMPALLOC_LISTS -D_GIBBON_BUMPALLOC_HEAP " else "")
                           ++(if pointer then " -D_GIBBON_POINTER " else "")
-                          ++(if parallel then " -fcilkplus -D_GIBBON_PARALLEL " else "")
+                          ++(if parallel then " -fopencilk -D_GIBBON_PARALLEL " else "")
                           ++(if warnc
                              then " -Wno-unused-variable -Wno-unused-label -Wall -Wextra -Wpedantic "
                              else suppress_warnings)

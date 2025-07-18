@@ -35,8 +35,33 @@ jobs:
           gcc --version
           stack --version
           cabal --version
+      
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Restore OpenCilk directory from cache
+        id: opencilk-cache
+        uses: actions/cache@v3
+        with:
+          path: opencilk
+          key: ${{ runner.os }}-opencilk-v2.1
+
+      - name: Download and extract OpenCilk (if needed)
+        if: steps.opencilk-cache.outputs.cache-hit != 'true'
+        run: |
+          wget -q https://github.com/OpenCilk/opencilk-project/releases/download/opencilk/v2.1/opencilk-2.1.0-x86_64-linux-gnu-ubuntu-22.04.tar.gz
+          tar -xzf opencilk-2.1.0-x86_64-linux-gnu-ubuntu-22.04.tar.gz
+          mv opencilk-2.1.0-x86_64-linux-gnu-ubuntu-22.04 opencilk
+
+      - name: Add OpenCilk to PATH (prepend)
+        run: echo "${{ github.workspace }}/opencilk/bin" >> "$GITHUB_PATH"
+
+      # ---- optional sanity check ----
+      - name: Verify OpenCilk clang is first in PATH
+        run: |
+          clang --version
+          llvm-ar --version
+      
       - run: cabal v2-update -w $HC
       - run: cabal v2-freeze -w $HC
       - name: cache-cabal

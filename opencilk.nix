@@ -7,26 +7,26 @@ let
 
   infrastructureSrc = fetchgit {
     url    = "https://github.com/OpenCilk/infrastructure.git";
-    rev    = "opencilk/v2.1";
-    sha256 = "01o3apUzIwFubvgJu+aonp7Ly7AMDvZKkOV7sz0pXBU=";
+    rev    = "opencilk/v3.0";
+    sha256 = "dpBiCPT0ZwKLi1ezD06/hVG40QW9azunqXPxwn0gDO4=";
   };
 
   opencilkProjectSrc = fetchgit {
     url    = "https://github.com/OpenCilk/opencilk-project.git";
-    rev    = "opencilk/v2.1";
-    sha256 = "Z4CjQU4wC0ubQSWaieDoMycxmhpPqnSEevMWQdRNUYY=";
+    rev    = "opencilk/v3.0";
+    sha256 = "QIBpCsdDVbXh35VGVDymI9CvAnTo1SA0UxZvJ0LUy0k=";
   };
 
   cheetahSrc = fetchgit {
     url    = "https://github.com/OpenCilk/cheetah.git";
-    rev    = "opencilk/v2.1";
-    sha256 = "QUlH2mKftfJe4xjmGc3Cumgi8aqrtGVxDTmfXRX/cB4=";
+    rev    = "opencilk/v3.0";
+    sha256 = "qBjYuCqw7Dk3IFrf9nEkGMjdveev2WiX9zSDHoSpnDc=";
   };
 
   productivityToolsSrc = fetchgit {
     url    = "https://github.com/OpenCilk/productivity-tools.git";
-    rev    = "opencilk/v2.1";
-    sha256 = "6+pUxNwkYUfORjeDzX5MJXzYwJbTodF019hVkDow+uQ=";
+    rev    = "opencilk/v3.0";
+    sha256 = "E59xva3+TFo7VCUO7/qVgHr0ZSiZq1cByRzCVfrQlP8=";
   };
 
   combinedSrc = pkgs.runCommand "combine-all-repos" { } ''

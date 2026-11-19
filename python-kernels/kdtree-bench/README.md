@@ -6,6 +6,7 @@ scikit-learn's `KDTree` and a plain C k-d tree (`baseline.c`).
 
     python3 bench.py            # d = 2, 3, 8, 16; 100k points, 10k queries
     python3 bench.py --quick    # d = 2, 8; 20k points, 2k queries
+    python3 bench.py --dims 16 --queries 1000 --out results-d16.json
 
 Needs GHC/cabal for the Gibbon compiler, gcc, NumPy and scikit-learn.
 Results go to `results/results.json` (or `results-quick.json`) with the

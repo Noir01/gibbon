@@ -117,12 +117,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--quick', action='store_true', help='two dimensions, small inputs')
     parser.add_argument('--gibbon', type=Path, help='gibbon executable (default: cabal list-bin)')
+    parser.add_argument('--dims', type=int, nargs='+', help='override the dimensions')
+    parser.add_argument('--queries', type=int, help='override the number of queries')
+    parser.add_argument('--out', help='results file name (default: results.json / results-quick.json)')
     args = parser.parse_args()
     if args.quick:
         dims_list, num_points, num_queries = QUICK['dims'], QUICK['points'], QUICK['queries']
         repeats, iters = QUICK['repeats'], QUICK['iters']
     else:
         dims_list, num_points, num_queries, repeats, iters = DIMS, NUM_POINTS, NUM_QUERIES, REPEATS, QUERY_ITERS
+    dims_list = args.dims or dims_list
+    num_queries = args.queries or num_queries
     compiler = (args.gibbon or default_gibbon()).resolve()
 
     shutil.rmtree(WORK, ignore_errors=True)
@@ -193,7 +198,7 @@ def main():
                gcc=subprocess.run(['gcc', '--version'], capture_output=True, text=True).stdout.splitlines()[0],
                gibbon_commit=subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT,
                                             capture_output=True, text=True).stdout.strip())
-    out = RESULTS / ('results-quick.json' if args.quick else 'results.json')
+    out = RESULTS / (args.out or ('results-quick.json' if args.quick else 'results.json'))
     out.write_text(json.dumps(dict(environment=env, datasets=records), indent=2) + '\n')
     print(f'wrote {out}')
 

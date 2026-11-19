@@ -1,7 +1,8 @@
 // Plain C k-d tree with the same algorithm as KDTree.hs.in (one point per node,
 // axis cycling with depth, median split found by sorting (coordinate, index)
 // keys), nodes in a flat array of structs. Reads the same input files as the
-// Gibbon program and prints results in the same format.
+// Gibbon program and prints results in the same format, followed by the total
+// number of nodes the queries visit.
 //
 // usage: baseline POINTS NUM_POINTS QUERIES NUM_QUERIES DIMS ITERS
 #define _GNU_SOURCE
@@ -70,6 +71,21 @@ static void nearest(int32_t node, const float *q, long axis, float *best_d, int6
     if (diff * diff < *best_d) nearest(second, q, next, best_d, best_i);
 }
 
+// Same search as nearest, counting the nodes it visits; run outside the timings.
+static long visits;
+static void nearest_counted(int32_t node, const float *q, long axis, float *best_d, int64_t *best_i) {
+    if (node < 0) return;
+    visits++;
+    const Node *nd = &nodes[node];
+    float dist = sqdist(pts + (long)nd->point * dims, q);
+    if (dist < *best_d) { *best_d = dist; *best_i = nd->point; }
+    float diff = q[axis] - nd->split;
+    long next = axis + 1 == dims ? 0 : axis + 1;
+    int32_t first = diff < 0.0f ? nd->left : nd->right, second = diff < 0.0f ? nd->right : nd->left;
+    nearest_counted(first, q, next, best_d, best_i);
+    if (diff * diff < *best_d) nearest_counted(second, q, next, best_d, best_i);
+}
+
 static float *read_floats(const char *path, long n) {
     FILE *f = fopen(path, "r");
     if (!f) { perror(path); exit(1); }
@@ -117,5 +133,12 @@ int main(int argc, char **argv) {
     qsort(times, iters, sizeof(double), cmp_double);
     printf("ITERS: %ld\nSIZE: %ld\nBATCHTIME: %e\nSELFTIMED: %e\n", iters, nq, total, times[iters / 2]);
     for (long j = 0; j < nq; j++) printf("%ld\n", (long)out[j]);
+    for (long j = 0; j < nq; j++) {
+        const float *q = qs + j * dims;
+        float best_d = sqdist(pts, q);
+        int64_t best_i = 0;
+        nearest_counted(root, q, 0, &best_d, &best_i);
+    }
+    printf("VISITS: %ld\n", visits);
     return 0;
 }

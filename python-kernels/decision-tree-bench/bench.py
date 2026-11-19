@@ -189,6 +189,12 @@ def tree_stats(clf, X_test):
                 sklearn_bytes=tree.node_count * (64 + 8 * tree.value.shape[2]))
 
 
+def check(ok, *context):
+    # Not assert: predictions must be popped and checked even under python -O.
+    if not ok:
+        raise RuntimeError(f'prediction mismatch: {context}')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--quick', action='store_true', help='two models, small batches')
@@ -252,18 +258,18 @@ def main():
             result = engine(verify_file, len(verify), 1)
             mismatches = int((result['preds'] != expected).sum()) if len(result['preds']) == len(expected) else None
             record['verify'][engine.mode] = dict(rows=int(len(expected)), mismatches=mismatches)
-            assert mismatches == 0, (name, engine.mode, mismatches)
+            check(mismatches == 0, name, engine.mode, 'verify', mismatches)
             record['compile_s'][engine.mode] = engine.compile_s
             record['build_tree_s'][engine.mode] = result['build_s']
         print(f'  verified {len(expected)} rows ({len(probes)} boundary probes) on all engines', flush=True)
 
         for rows, iters in batches.items():
             sk = time_sklearn(clf, X_test[:rows], iters)
-            assert (sk.pop('preds') == clf.predict(X_test[:rows])).all()
+            check((sk.pop('preds') == clf.predict(X_test[:rows])).all(), name, 'sklearn', rows)
             entry = dict(batch=rows, sklearn=sk)
             for engine in engines:
                 result = engine(batch_files[rows], rows, iters)
-                assert (result.pop('preds') == expected[:rows]).all(), (name, engine.mode, rows)
+                check((result.pop('preds') == expected[:rows]).all(), name, engine.mode, rows)
                 result.pop('build_s')
                 entry[engine.mode] = result
             record['timings'].append(entry)

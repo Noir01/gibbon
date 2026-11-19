@@ -1,0 +1,13 @@
+(module
+  (data Expr (IntE Int) (AddE Expr Expr))
+  (define (sum_ints (e : Expr)) : Int
+    (case e of
+      (IntE n) n
+      (AddE a b) (+ (sum_ints a) (sum_ints b))))
+  (define (add_ints (amount : Int) (e : Expr)) : Expr
+    (case e of
+      (IntE n) (IntE (+ n amount))
+      (AddE a b) (AddE (add_ints amount a) (add_ints amount b))))
+  (define (main) : Int
+    (let ((e : Expr) (read-packed-file "expr_input.bin"))
+      (sum_ints e)))

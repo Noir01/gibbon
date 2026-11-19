@@ -1,0 +1,14 @@
+build/
+__pycache__/
+*.pyc
+.pytest_cache/
+advisor/
+*.exe
+*.so
+*.o
+*.log
+spikes/native/gibbon
+frontend/expr.c
+frontend/weighted_tree.c
+spikes/native/expr_sum_add.c
+spikes/construction/module.c

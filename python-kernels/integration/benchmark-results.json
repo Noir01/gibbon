@@ -1,0 +1,844 @@
+{
+  "platform": "Linux-6.18.28-x86_64-with-glibc2.42",
+  "machine": "x86_64",
+  "processor": "",
+  "python": "3.13.12 (main, Feb  3 2026, 17:53:27) [GCC 15.2.0]",
+  "timing_clock": "time.perf_counter_ns",
+  "rows": [
+    {
+      "shape": "balanced",
+      "depth": 5,
+      "nodes": 63,
+      "integer_scalars": 32,
+      "packed_bytes": 319,
+      "transform_amount": 2,
+      "sequence_additions": 3,
+      "reference_sum": 112,
+      "shifted_sum": 176,
+      "sequence_sum": 304,
+      "timings": {
+        "cold_compile_type": {
+          "median_ns": 1537568745,
+          "samples_ns": [
+            1850284841,
+            1537568745,
+            1405233399,
+            1449827189,
+            1634060338
+          ],
+          "repetitions": 5,
+          "warmups": 1
+        },
+        "pack": {
+          "median_ns": 426699,
+          "samples_ns": [
+            498795,
+            495865,
+            442099,
+            421182,
+            404883,
+            406752,
+            426699
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_sum": {
+          "median_ns": 5483,
+          "samples_ns": [
+            7018,
+            6584,
+            5707,
+            5386,
+            5423,
+            5483,
+            5317
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_add_including_output_allocation": {
+          "median_ns": 13992,
+          "samples_ns": [
+            19960,
+            15235,
+            14727,
+            13992,
+            13542,
+            13513,
+            13266
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "unpack": {
+          "median_ns": 126209,
+          "samples_ns": [
+            140264,
+            171548,
+            126209,
+            124961,
+            135066,
+            125959,
+            125908
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sum": {
+          "median_ns": 433242,
+          "samples_ns": [
+            433242,
+            419853,
+            424810,
+            6890167,
+            451881,
+            456018,
+            419484
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_repeated_add_then_sum": {
+          "median_ns": 44825,
+          "samples_ns": [
+            44825,
+            43654,
+            76342,
+            45672,
+            44385,
+            43957,
+            77830
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_sum": {
+          "median_ns": 14747,
+          "samples_ns": [
+            15618,
+            14963,
+            14747,
+            14687,
+            40356,
+            14146,
+            14099
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_add": {
+          "median_ns": 38608,
+          "samples_ns": [
+            40466,
+            39115,
+            38842,
+            38572,
+            38608,
+            38424,
+            38435
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sequence": {
+          "median_ns": 482586,
+          "samples_ns": [
+            501211,
+            456742,
+            483985,
+            453413,
+            494356,
+            462843,
+            482586
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_repeated_add_then_sum": {
+          "median_ns": 129402,
+          "samples_ns": [
+            126776,
+            145063,
+            128966,
+            129279,
+            148361,
+            129743,
+            129402
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        }
+      }
+    },
+    {
+      "shape": "balanced",
+      "depth": 9,
+      "nodes": 1023,
+      "integer_scalars": 512,
+      "packed_bytes": 5119,
+      "transform_amount": 2,
+      "sequence_additions": 3,
+      "reference_sum": 2816,
+      "shifted_sum": 3840,
+      "sequence_sum": 5888,
+      "timings": {
+        "cold_compile_type": {
+          "median_ns": 1537568745,
+          "samples_ns": [
+            1850284841,
+            1537568745,
+            1405233399,
+            1449827189,
+            1634060338
+          ],
+          "repetitions": 5,
+          "warmups": 1
+        },
+        "pack": {
+          "median_ns": 6648662,
+          "samples_ns": [
+            6461676,
+            7302196,
+            6648662,
+            6668452,
+            6533586,
+            6645516,
+            6729289
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_sum": {
+          "median_ns": 16652,
+          "samples_ns": [
+            17767,
+            17267,
+            16769,
+            16542,
+            16515,
+            16652,
+            16389
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_add_including_output_allocation": {
+          "median_ns": 27234,
+          "samples_ns": [
+            32031,
+            28653,
+            27234,
+            27395,
+            26697,
+            27065,
+            26714
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "unpack": {
+          "median_ns": 2155491,
+          "samples_ns": [
+            2083274,
+            2182975,
+            2659058,
+            2143621,
+            2143320,
+            2155491,
+            2176054
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sum": {
+          "median_ns": 6616358,
+          "samples_ns": [
+            6601581,
+            6931468,
+            6591891,
+            6550359,
+            6664281,
+            6616358,
+            6670878
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_repeated_add_then_sum": {
+          "median_ns": 98654,
+          "samples_ns": [
+            98654,
+            99331,
+            98803,
+            110177,
+            97552,
+            98070,
+            97626
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_sum": {
+          "median_ns": 236052,
+          "samples_ns": [
+            237280,
+            236052,
+            235425,
+            244913,
+            236169,
+            236019,
+            235398
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_add": {
+          "median_ns": 628221,
+          "samples_ns": [
+            973375,
+            623449,
+            628221,
+            618332,
+            624787,
+            628595,
+            632242
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sequence": {
+          "median_ns": 2557673,
+          "samples_ns": [
+            6676501,
+            6637780,
+            5691795,
+            2491533,
+            2557673,
+            2489962,
+            2448301
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_repeated_add_then_sum": {
+          "median_ns": 2416511,
+          "samples_ns": [
+            2441570,
+            2410915,
+            2416511,
+            2404647,
+            2410482,
+            2879726,
+            2438571
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        }
+      }
+    },
+    {
+      "shape": "balanced",
+      "depth": 12,
+      "nodes": 8191,
+      "integer_scalars": 4096,
+      "packed_bytes": 40959,
+      "transform_amount": 2,
+      "sequence_additions": 3,
+      "reference_sum": 28672,
+      "shifted_sum": 36864,
+      "sequence_sum": 53248,
+      "timings": {
+        "cold_compile_type": {
+          "median_ns": 1537568745,
+          "samples_ns": [
+            1850284841,
+            1537568745,
+            1405233399,
+            1449827189,
+            1634060338
+          ],
+          "repetitions": 5,
+          "warmups": 1
+        },
+        "pack": {
+          "median_ns": 21351398,
+          "samples_ns": [
+            19931371,
+            24547021,
+            26572896,
+            39452130,
+            21351398,
+            20812454,
+            21123519
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_sum": {
+          "median_ns": 37011,
+          "samples_ns": [
+            37011,
+            39463,
+            41259,
+            37192,
+            36355,
+            36381,
+            36361
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_add_including_output_allocation": {
+          "median_ns": 53617,
+          "samples_ns": [
+            53617,
+            53609,
+            49825,
+            49568,
+            59589,
+            64263,
+            53987
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "unpack": {
+          "median_ns": 6964084,
+          "samples_ns": [
+            8022676,
+            6964084,
+            6864452,
+            7834717,
+            6839923,
+            6809702,
+            7876984
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sum": {
+          "median_ns": 20163754,
+          "samples_ns": [
+            20163754,
+            20668316,
+            20084268,
+            19837564,
+            20138007,
+            20732757,
+            21963196
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_repeated_add_then_sum": {
+          "median_ns": 201529,
+          "samples_ns": [
+            191461,
+            268844,
+            196483,
+            205597,
+            202027,
+            201529,
+            183207
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_sum": {
+          "median_ns": 746840,
+          "samples_ns": [
+            743479,
+            746840,
+            736903,
+            768290,
+            752647,
+            779432,
+            736538
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_add": {
+          "median_ns": 2420310,
+          "samples_ns": [
+            2470174,
+            3439570,
+            2420310,
+            2370997,
+            3365564,
+            2386785,
+            2393593
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sequence": {
+          "median_ns": 20898267,
+          "samples_ns": [
+            20898267,
+            21096557,
+            24356054,
+            20394911,
+            21076264,
+            20528318,
+            20666474
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_repeated_add_then_sum": {
+          "median_ns": 9021409,
+          "samples_ns": [
+            22601218,
+            9021409,
+            8451198,
+            8398537,
+            8432965,
+            9072645,
+            9508650
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        }
+      }
+    },
+    {
+      "shape": "skewed",
+      "depth": 32,
+      "nodes": 65,
+      "integer_scalars": 33,
+      "packed_bytes": 329,
+      "transform_amount": 2,
+      "sequence_additions": 3,
+      "reference_sum": 497,
+      "shifted_sum": 563,
+      "sequence_sum": 695,
+      "timings": {
+        "cold_compile_type": {
+          "median_ns": 1537568745,
+          "samples_ns": [
+            1850284841,
+            1537568745,
+            1405233399,
+            1449827189,
+            1634060338
+          ],
+          "repetitions": 5,
+          "warmups": 1
+        },
+        "pack": {
+          "median_ns": 152736,
+          "samples_ns": [
+            166883,
+            166886,
+            153912,
+            151346,
+            151852,
+            150266,
+            152736
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_sum": {
+          "median_ns": 2451,
+          "samples_ns": [
+            2957,
+            2631,
+            2547,
+            2426,
+            2451,
+            2384,
+            2338
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_add_including_output_allocation": {
+          "median_ns": 5799,
+          "samples_ns": [
+            6627,
+            6401,
+            6001,
+            5799,
+            5427,
+            5611,
+            5391
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "unpack": {
+          "median_ns": 49443,
+          "samples_ns": [
+            51451,
+            49676,
+            49348,
+            49369,
+            49018,
+            49443,
+            54676
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sum": {
+          "median_ns": 158124,
+          "samples_ns": [
+            223260,
+            160280,
+            158124,
+            157840,
+            156888,
+            157320,
+            168276
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_repeated_add_then_sum": {
+          "median_ns": 17958,
+          "samples_ns": [
+            17958,
+            18138,
+            18007,
+            17980,
+            17870,
+            17817,
+            17758
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_sum": {
+          "median_ns": 5156,
+          "samples_ns": [
+            5339,
+            5319,
+            5198,
+            5081,
+            5156,
+            5102,
+            5087
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_add": {
+          "median_ns": 14843,
+          "samples_ns": [
+            15177,
+            14761,
+            14893,
+            14790,
+            14902,
+            14832,
+            14843
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sequence": {
+          "median_ns": 175656,
+          "samples_ns": [
+            187231,
+            175979,
+            175326,
+            175502,
+            175656,
+            174321,
+            182731
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_repeated_add_then_sum": {
+          "median_ns": 49114,
+          "samples_ns": [
+            49333,
+            49115,
+            49003,
+            48964,
+            48838,
+            49260,
+            49114
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        }
+      }
+    },
+    {
+      "shape": "skewed",
+      "depth": 96,
+      "nodes": 193,
+      "integer_scalars": 97,
+      "packed_bytes": 969,
+      "transform_amount": 2,
+      "sequence_additions": 3,
+      "reference_sum": 4561,
+      "shifted_sum": 4755,
+      "sequence_sum": 5143,
+      "timings": {
+        "cold_compile_type": {
+          "median_ns": 1537568745,
+          "samples_ns": [
+            1850284841,
+            1537568745,
+            1405233399,
+            1449827189,
+            1634060338
+          ],
+          "repetitions": 5,
+          "warmups": 1
+        },
+        "pack": {
+          "median_ns": 522002,
+          "samples_ns": [
+            565788,
+            608672,
+            504695,
+            516682,
+            501600,
+            553203,
+            522002
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_sum": {
+          "median_ns": 3353,
+          "samples_ns": [
+            3948,
+            3534,
+            3426,
+            3337,
+            3332,
+            3353,
+            3314
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_add_including_output_allocation": {
+          "median_ns": 7354,
+          "samples_ns": [
+            9396,
+            7768,
+            7274,
+            7134,
+            7193,
+            7639,
+            7354
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "unpack": {
+          "median_ns": 178710,
+          "samples_ns": [
+            182972,
+            177978,
+            176044,
+            178710,
+            183584,
+            184490,
+            172212
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sum": {
+          "median_ns": 535931,
+          "samples_ns": [
+            543773,
+            535931,
+            545477,
+            598506,
+            515365,
+            525273,
+            513927
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "native_repeated_add_then_sum": {
+          "median_ns": 23839,
+          "samples_ns": [
+            23839,
+            24039,
+            23628,
+            23755,
+            23382,
+            34681,
+            24316
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_sum": {
+          "median_ns": 15368,
+          "samples_ns": [
+            15772,
+            15403,
+            15342,
+            15334,
+            15335,
+            15368,
+            15491
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_add": {
+          "median_ns": 44429,
+          "samples_ns": [
+            44649,
+            44429,
+            44393,
+            45662,
+            44393,
+            44058,
+            44481
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "pack_then_native_sequence": {
+          "median_ns": 553816,
+          "samples_ns": [
+            561238,
+            553816,
+            544567,
+            578879,
+            547507,
+            602906,
+            545118
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        },
+        "python_repeated_add_then_sum": {
+          "median_ns": 146841,
+          "samples_ns": [
+            146195,
+            146841,
+            146815,
+            206422,
+            210690,
+            147374,
+            145789
+          ],
+          "repetitions": 7,
+          "warmups": 1
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Flat host-specific fixed-shape native ABI; caller-owned Python arrays.",
+    "No claim of full RTS GC; transforms remain packed between calls.",
+    "Correctness assertions run outside individual timed intervals."
+  ]
+}

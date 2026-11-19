@@ -142,9 +142,10 @@ def main():
         results.append(record)
         print(f'd{dims}: {visits:.0f} nodes visited per query', flush=True)
         for name, c in record['engines'].items():
-            print(f'  {name:17s} ' + '  '.join(f'{k} {v:10.1f}' for k, v in c.items())
-                  + f'   cycles/node {c["cycles"] / visits:6.1f}  insn/node {c["instructions"] / visits:6.1f}',
-                  flush=True)
+            # Only C and Gibbon build this tree, so only they visit `visits` nodes.
+            per_node = (f'   cycles/node {c["cycles"] / visits:6.1f}  insn/node {c["instructions"] / visits:6.1f}'
+                        if name in ('c', 'packed', 'pointer') else '')
+            print(f'  {name:17s} ' + '  '.join(f'{k} {v:10.1f}' for k, v in c.items()) + per_node, flush=True)
         top = sorted(record['sklearn_dso_share_pct'].items(), key=lambda kv: -kv[1])[:5]
         print('  sklearn samples by object: ' + ', '.join(f'{k} {v:.1f}%' for k, v in top), flush=True)
         shutil.rmtree(data_dir)

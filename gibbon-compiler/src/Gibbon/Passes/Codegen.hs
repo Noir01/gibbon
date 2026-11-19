@@ -1231,6 +1231,7 @@ codegenTail venv fenv sort_fns (LetPrimCallT bnds prm rnds body) ty sync_deps =
                            line <- gensym "line"
                            len <- gensym "len"
                            read <- gensym "read"
+                           expected <- gensym "expected"
                            line_num <- gensym "i"
 
                            (tmps, tmps_parsers, tmps_assns, tmps_decls) <-
@@ -1271,7 +1272,8 @@ codegenTail venv fenv sort_fns (LetPrimCallT bnds prm rnds body) ty sync_deps =
                                                        , [cexp| gib_read_arrayfile_length_param() |]) -- Will be set by command line arg.
 
                            return $
-                                  [ C.BlockDecl [cdecl| $ty:(codegenTy (VectorTy ty)) ($id:outV) = gib_vector_alloc($filelength, sizeof($ty:(codegenTy ty))); |]
+                                  [ C.BlockDecl [cdecl| $ty:(codegenTy IntTy) $id:expected = $filelength; |]
+                                  , C.BlockDecl [cdecl| $ty:(codegenTy (VectorTy ty)) ($id:outV) = gib_vector_alloc($id:expected, sizeof($ty:(codegenTy ty))); |]
                                   , C.BlockDecl [cdecl| $ty:(codegenTy ty) $id:elem; |]
                                   , C.BlockStm  [cstm| FILE *($id:fp); |]
                                   , C.BlockDecl [cdecl| char *($id:line) = NULL; |]
@@ -1283,14 +1285,28 @@ codegenTail venv fenv sort_fns (LetPrimCallT bnds prm rnds body) ty sync_deps =
                                   ] ++ tmps_decls ++
                                   [ C.BlockDecl [cdecl| $ty:(codegenTy IntTy) $id:line_num = 0; |]
                                   , C.BlockStm [cstm| while(($id:read = getline(&($id:line), &($id:len), $id:fp)) != -1) {
+                                                      if ($id:line_num >= $id:expected) {
+                                                        fprintf(stderr, "readArrayFile: input contains more lines than expected\n");
+                                                        exit(EXIT_FAILURE);
+                                                      }
                                                       int xxxx = $scanf;
                                                       $items:tmps_assns
                                                       gib_vector_inplace_update($id:outV, $id:line_num, &($id:elem));
                                                       $id:line_num++;
                                                     } |]
+                                  , C.BlockStm [cstm| if (!feof($id:fp)) {
+                                                      perror("readArrayFile: getline");
+                                                      exit(EXIT_FAILURE);
+                                                    } |]
+                                  , C.BlockStm [cstm| if ($id:line_num != $id:expected) {
+                                                      fprintf(stderr, "readArrayFile: input contains fewer lines than expected\n");
+                                                      exit(EXIT_FAILURE);
+                                                    } |]
+                                  , C.BlockStm [cstm| free($id:line); |]
+                                  , C.BlockStm [cstm| fclose($id:fp); |]
                                   ]
 
-                   | otherwise -> error $ "ReadPackedFile, wrong arguments "++show rnds++", or expected bindings "++show bnds
+                   | otherwise -> error $ "ReadArrayFile, wrong arguments "++show rnds++", or expected bindings "++show bnds
 
                  MMapFileSize v -> do
                        let [(outV,IntTy)] = bnds

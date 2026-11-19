@@ -1,0 +1,125 @@
+-- Hand-written k-d tree: build and exact 1-nearest-neighbour queries.
+-- Generated per dataset by bench.py: @POINTS_FILE@, @NUM_COORDS@ (points * dims)
+-- and @DIMS@ are substituted. Queries come from --array-input (row-major
+-- float32, one value per line); --size-param is the number of queries.
+--
+-- One point per node, split axis cycling with depth, split at the median of the
+-- node's points (found by sorting them along the axis). A node stores the point
+-- index and its coordinate on the split axis; full coordinates stay in the
+-- point vector, as in scikit-learn's KDTree.
+
+data KD = Empty | Node Int Float KD KD
+
+cmpKey :: (Float, Int) -> (Float, Int) -> Int
+cmpKey a b =
+  let x = a !!! 0
+      y = b !!! 0
+  in if x .<. y then 0 - 1 else if y .<. x then 1 else (a !!! 1) - (b !!! 1)
+
+nextAxis :: Int -> Int -> Int
+nextAxis d axis = if axis + 1 == d then 0 else axis + 1
+
+fillKeys :: Vector Float -> Int -> Int -> Vector Int -> Int -> Int -> Vector (Float, Int) -> Vector (Float, Int)
+fillKeys pts d axis idx j n out =
+  if j >= n
+  then out
+  else let i = vnth idx j
+           out2 = inplacevupdate out j (vnth pts (i * d + axis), i)
+       in fillKeys pts d axis idx (j + 1) n out2
+
+fillIdx :: Vector (Float, Int) -> Int -> Int -> Vector Int -> Vector Int
+fillIdx keys j n out =
+  if j >= n
+  then out
+  else let i = (vnth keys j) !!! 1
+           -- `+ 0` keeps codegen from passing a tuple projection to inplacevupdate.
+           out2 = inplacevupdate out j (i + 0)
+       in fillIdx keys (j + 1) n out2
+
+build :: Vector Float -> Int -> Int -> Vector Int -> KD
+build pts d axis idx =
+  let n = vlength idx
+  in if n == 0
+     then Empty
+     else let keys0 :: Vector (Float, Int)
+              keys0 = valloc n
+              keys1 = fillKeys pts d axis idx 0 n keys0
+              keys = inplacevsort keys1 cmpKey
+              sorted0 :: Vector Int
+              sorted0 = valloc n
+              sorted = fillIdx keys 0 n sorted0
+              m = div n 2
+              split = (vnth keys m) !!! 0
+              axis2 = nextAxis d axis
+          in Node (vnth sorted m) split
+                  (build pts d axis2 (vslice 0 m sorted))
+                  (build pts d axis2 (vslice (m + 1) (n - m - 1) sorted))
+
+sqdist :: Vector Float -> Int -> Vector Float -> Int -> Int -> Int -> Float -> Float
+sqdist pts pb qs qb d k acc =
+  if k >= d
+  then acc
+  else let t = (vnth pts (pb + k)) .-. (vnth qs (qb + k))
+       in sqdist pts pb qs qb d (k + 1) (acc .+. (t .*. t))
+
+nearest :: KD -> Vector Float -> Vector Float -> Int -> Int -> Int -> Float -> Int -> (Float, Int)
+nearest tree pts qs qb d axis bestD bestI = case tree of
+  Empty -> (bestD, bestI)
+  Node i s l r ->
+    let dist = sqdist pts (i * d) qs qb d 0 0.0
+        closer = dist .<. bestD
+        bd = if closer then dist else bestD
+        bi = if closer then i else bestI
+        diff = (vnth qs (qb + axis)) .-. s
+        axis2 = nextAxis d axis
+    in if diff .<. 0.0
+       then let near = nearest l pts qs qb d axis2 bd bi
+                nd = near !!! 0
+                ni = near !!! 1
+            in if (diff .*. diff) .<. nd then nearest r pts qs qb d axis2 nd ni else (nd, ni)
+       else let near = nearest r pts qs qb d axis2 bd bi
+                nd = near !!! 0
+                ni = near !!! 1
+            in if (diff .*. diff) .<. nd then nearest l pts qs qb d axis2 nd ni else (nd, ni)
+
+queryAll :: KD -> Vector Float -> Vector Float -> Int -> Int -> Int -> Vector Int -> Vector Int
+queryAll tree pts qs d j n out =
+  if j >= n
+  then out
+  else let qb = j * d
+           start = sqdist pts 0 qs qb d 0 0.0
+           res = nearest tree pts qs qb d 0 start 0
+           out2 = inplacevupdate out j (res !!! 1)
+       in queryAll tree pts qs d (j + 1) n out2
+
+iota :: Int -> Int -> Vector Int -> Vector Int
+iota j n out =
+  if j >= n
+  then out
+  else let out2 = inplacevupdate out j j
+       in iota (j + 1) n out2
+
+printAll :: Vector Int -> Int -> Int -> ()
+printAll v i n =
+  if i >= n
+  then ()
+  else let _ = printint (vnth v i)
+           _ = printsym (quote "\n")
+       in printAll v (i + 1) n
+
+gibbon_main =
+  let pts :: Vector Float
+      pts = readArrayFile (Just ("@POINTS_FILE@", @NUM_COORDS@))
+      qs :: Vector Float
+      qs = readArrayFile Nothing
+      d = @DIMS@
+      np = div (vlength pts) d
+      n = sizeParam
+      idx0 :: Vector Int
+      idx0 = valloc np
+      idx = iota 0 np idx0
+      tree = timeit (build pts d 0 idx)
+      out0 :: Vector Int
+      out0 = valloc n
+      out = iterate (queryAll tree pts qs d 0 n out0)
+  in printAll out 0 n

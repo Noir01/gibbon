@@ -1,10 +1,50 @@
-"""Check that invalid list indices fail instead of issuing unchecked memory accesses."""
+"""Check bounds for compiled list operations and array file reads."""
 import argparse
 import json
 import os
 from pathlib import Path
 import subprocess
+from tempfile import TemporaryDirectory
 from translate import translate
+
+
+def verify_array_file(gibbon, env):
+    with TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        data = root / 'rows.txt'
+        for name, argument, options in (
+            ('runtime', 'Nothing', ['--array-input', str(data), '--array-input-length', '2']),
+            ('literal', 'Just ("rows.txt", 2)', []),
+        ):
+            source = root / (name + '.hs')
+            source.write_text(
+                'import Gibbon.Vector\n\n'
+                'gibbon_main =\n'
+                '    let rows :: Vector Int\n'
+                f'        rows = readArrayFile ({argument})\n'
+                '    in if vlength rows == 2 then vnth rows 0 + vnth rows 1 else vlength rows\n'
+            )
+            compiled = subprocess.run(
+                [str(gibbon), '--hs', '--packed', '--cc=gcc', '--to-exe', str(source)],
+                cwd=root, env=env, capture_output=True, text=True, timeout=180,
+            )
+            assert compiled.returncode == 0, (name, compiled.stdout, compiled.stderr)
+            for rows, error in (
+                ('11\n22\n', None),
+                ('11\n22\n33\n', 'readArrayFile: input contains more lines than expected'),
+                ('11\n', 'readArrayFile: input contains fewer lines than expected'),
+            ):
+                data.write_text(rows)
+                run = subprocess.run(
+                    [str(source.with_suffix('.exe')), *options], cwd=root, env=env,
+                    capture_output=True, text=True, timeout=15,
+                )
+                details = name, rows, run.returncode, run.stdout, run.stderr
+                if error is None:
+                    assert run.returncode == 0 and run.stdout.strip() == '33', details
+                else:
+                    assert run.returncode == 1 and error in run.stderr, details
+            print(f'readArrayFile ({name} length): exact, excess, and short input PASS', flush=True)
 
 
 def main():
@@ -43,6 +83,7 @@ def main():
         (build / 'results.json').write_text(json.dumps(records, indent=2) + '\n')
         print(f'{name}: Python IndexError; native bounds failure PASS', flush=True)
     print(f'{len(records)} bounds checks passed (native process failure, not Python exceptions)')
+    verify_array_file(args.gibbon.resolve(), env)
 
 
 if __name__ == '__main__':

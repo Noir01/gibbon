@@ -1,0 +1,49 @@
+-- Decision-tree inference over a packed tree and a flat feature vector.
+-- Generated per model by bench.py: @NODES_FILE@, @NUM_NODES@ and @NUM_FEATURES@
+-- are substituted. Features come from --array-input (row-major float32, one
+-- value per line); --size-param is the number of rows to predict.
+--
+-- Node rows: (feature, threshold, left, right, class); feature < 0 marks a leaf.
+
+data Tree = Leaf Int | Split Int Float Tree Tree
+
+build :: Vector (Int, Float, Int, Int, Int) -> Int -> Tree
+build nodes i =
+  let (f, t, l, r, c) = vnth nodes i
+  in if f < 0 then Leaf c else Split f t (build nodes l) (build nodes r)
+
+predict :: Tree -> Vector Float -> Int -> Int
+predict tree xs base = case tree of
+  Leaf c -> c
+  Split f t l r ->
+    if (vnth xs (base + f)) .<=. t
+    then predict l xs base
+    else predict r xs base
+
+predictAll :: Tree -> Vector Float -> Int -> Int -> Int -> Vector Int -> Vector Int
+predictAll tree xs nf i n out =
+  if i >= n
+  then out
+  else let p = predict tree xs (i * nf)
+           out2 = inplacevupdate out i p
+       in predictAll tree xs nf (i + 1) n out2
+
+printAll :: Vector Int -> Int -> Int -> ()
+printAll v i n =
+  if i >= n
+  then ()
+  else let _ = printint (vnth v i)
+           _ = printsym (quote "\n")
+       in printAll v (i + 1) n
+
+gibbon_main =
+  let nodes :: Vector (Int, Float, Int, Int, Int)
+      nodes = readArrayFile (Just ("@NODES_FILE@", @NUM_NODES@))
+      xs :: Vector Float
+      xs = readArrayFile Nothing
+      n = sizeParam
+      tree = timeit (build nodes 0)
+      out0 :: Vector Int
+      out0 = valloc n
+      out = iterate (predictAll tree xs @NUM_FEATURES@ 0 n out0)
+  in printAll out 0 n

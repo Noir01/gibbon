@@ -1,0 +1,231 @@
+[
+  {
+    "dims": 2,
+    "points": 100000,
+    "queries": 10000,
+    "nodes_visited_per_query": 23.2659,
+    "engines": {
+      "c": {
+        "cycles": 1376.21151,
+        "instructions": 2020.54584,
+        "branch-misses": 17.991325,
+        "L1-dcache-load-misses": 32.174665,
+        "cache-misses": 9.381905
+      },
+      "nanoflann-leaf10": {
+        "cycles": 1155.272595,
+        "instructions": 1680.599285,
+        "branch-misses": 12.368845,
+        "L1-dcache-load-misses": 36.110565,
+        "cache-misses": 12.12763
+      },
+      "packed": {
+        "cycles": 1483.16117,
+        "instructions": 2869.346995,
+        "branch-misses": 15.0163,
+        "L1-dcache-load-misses": 48.318055,
+        "cache-misses": 16.74575
+      },
+      "pointer": {
+        "cycles": 1608.55538,
+        "instructions": 2176.468535,
+        "branch-misses": 14.358355,
+        "L1-dcache-load-misses": 67.566885,
+        "cache-misses": 39.65991
+      }
+    },
+    "sklearn_dso_share_pct": {
+      "_kd_tree.cpython-310-x86_64-linux-gnu.so": 62.29,
+      "libm.so.6": 34.21,
+      "_heap.cpython-310-x86_64-linux-gnu.so": 2.32,
+      "[unknown]": 1.14,
+      "python3.10": 0.04
+    },
+    "sklearn_top_symbols_pct": {
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_12BinaryTree64__query_single_depthfirst": 34.57,
+      "__ieee754_pow_fma": 22.7,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_min_rdist64": 22.51,
+      "pow@GLIBC_2.2.5": 10.15,
+      "pow@plt": 2.62,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_15NeighborsHeap64__push": 2.59,
+      "__pyx_fuse_1__pyx_f_7sklearn_5utils_5_heap_heap_push": 2.32,
+      "__pow_finite@GLIBC_2.15@plt": 1.36,
+      "0xffffffff8c2d6b8a": 1.14,
+      "_PyEval_EvalFrameDefault": 0.04,
+      "0xffffffff8d704104": 0.0,
+      "0xffffffff8d4426fe": 0.0
+    }
+  },
+  {
+    "dims": 4,
+    "points": 100000,
+    "queries": 10000,
+    "nodes_visited_per_query": 75.2849,
+    "engines": {
+      "c": {
+        "cycles": 4440.04516,
+        "instructions": 7106.45491,
+        "branch-misses": 67.600055,
+        "L1-dcache-load-misses": 119.82451,
+        "cache-misses": 58.603205
+      },
+      "nanoflann-leaf10": {
+        "cycles": 3135.778945,
+        "instructions": 4852.630265,
+        "branch-misses": 35.935325,
+        "L1-dcache-load-misses": 105.6259,
+        "cache-misses": 54.93705
+      },
+      "packed": {
+        "cycles": 5822.192145,
+        "instructions": 10995.451005,
+        "branch-misses": 58.6387,
+        "L1-dcache-load-misses": 155.076925,
+        "cache-misses": 77.529265
+      },
+      "pointer": {
+        "cycles": 6684.70717,
+        "instructions": 8384.6825,
+        "branch-misses": 57.72978,
+        "L1-dcache-load-misses": 273.39219,
+        "cache-misses": 205.42807
+      }
+    },
+    "sklearn_dso_share_pct": {
+      "_kd_tree.cpython-310-x86_64-linux-gnu.so": 60.32,
+      "libm.so.6": 35.65,
+      "_heap.cpython-310-x86_64-linux-gnu.so": 3.13,
+      "[unknown]": 0.88,
+      "python3.10": 0.02
+    },
+    "sklearn_top_symbols_pct": {
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_12BinaryTree64__query_single_depthfirst": 39.42,
+      "__ieee754_pow_fma": 21.39,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_min_rdist64": 15.08,
+      "pow@GLIBC_2.2.5": 12.82,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_15NeighborsHeap64__push": 4.9,
+      "__pyx_fuse_1__pyx_f_7sklearn_5utils_5_heap_heap_push": 3.13,
+      "__pow_finite@GLIBC_2.15@plt": 1.44,
+      "pow@plt": 0.92,
+      "0xffffffff8c40d5a9": 0.45,
+      "0xffffffff8c420c96": 0.43,
+      "PyMethod_New": 0.02,
+      "0xffffffff8c323cfd": 0.0
+    }
+  },
+  {
+    "dims": 8,
+    "points": 100000,
+    "queries": 10000,
+    "nodes_visited_per_query": 1580.4386,
+    "engines": {
+      "c": {
+        "cycles": 84592.24976,
+        "instructions": 177709.378675,
+        "branch-misses": 1237.09545,
+        "L1-dcache-load-misses": 3295.205315,
+        "cache-misses": 2241.00364
+      },
+      "nanoflann-leaf10": {
+        "cycles": 29583.217465,
+        "instructions": 55560.946305,
+        "branch-misses": 321.966325,
+        "L1-dcache-load-misses": 1392.33764,
+        "cache-misses": 940.55609
+      },
+      "packed": {
+        "cycles": 145264.78731,
+        "instructions": 299070.35654,
+        "branch-misses": 1127.54515,
+        "L1-dcache-load-misses": 3869.73723,
+        "cache-misses": 2597.47763
+      },
+      "pointer": {
+        "cycles": 158894.89446,
+        "instructions": 229987.116705,
+        "branch-misses": 1229.696045,
+        "L1-dcache-load-misses": 7298.013095,
+        "cache-misses": 6238.392225
+      }
+    },
+    "sklearn_dso_share_pct": {
+      "_kd_tree.cpython-310-x86_64-linux-gnu.so": 61.23,
+      "libm.so.6": 36.43,
+      "_heap.cpython-310-x86_64-linux-gnu.so": 2.05,
+      "[unknown]": 0.24,
+      "python3.10": 0.05
+    },
+    "sklearn_top_symbols_pct": {
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_12BinaryTree64__query_single_depthfirst": 46.12,
+      "__ieee754_pow_fma": 23.57,
+      "pow@GLIBC_2.2.5": 11.39,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_min_rdist64": 10.67,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_15NeighborsHeap64__push": 3.65,
+      "__pyx_fuse_1__pyx_f_7sklearn_5utils_5_heap_heap_push": 2.05,
+      "__pow_finite@GLIBC_2.15@plt": 1.47,
+      "pow@plt": 0.7,
+      "__pyx_pf_7sklearn_9neighbors_8_kd_tree_12BinaryTree64_20query": 0.1,
+      "0xffffffff8d441644": 0.05,
+      "0xffffffff8d44167b": 0.05,
+      "0xffffffff8c3e9806": 0.05
+    }
+  },
+  {
+    "dims": 16,
+    "points": 100000,
+    "queries": 500,
+    "nodes_visited_per_query": 91609.33,
+    "engines": {
+      "c": {
+        "cycles": 5284773.0448,
+        "instructions": 13679488.4145,
+        "branch-misses": 34423.4627,
+        "L1-dcache-load-misses": 213675.8564,
+        "cache-misses": 180638.9651
+      },
+      "nanoflann-leaf10": {
+        "cycles": 943735.4705,
+        "instructions": 2156130.25,
+        "branch-misses": 6801.2224,
+        "L1-dcache-load-misses": 45808.7805,
+        "cache-misses": 38465.8015
+      },
+      "packed": {
+        "cycles": 9623509.9293,
+        "instructions": 24435346.5029,
+        "branch-misses": 28440.5205,
+        "L1-dcache-load-misses": 228488.1802,
+        "cache-misses": 184747.3829
+      },
+      "pointer": {
+        "cycles": 11692319.7126,
+        "instructions": 19335978.2808,
+        "branch-misses": 36607.0168,
+        "L1-dcache-load-misses": 445249.755,
+        "cache-misses": 395377.4267
+      }
+    },
+    "sklearn_dso_share_pct": {
+      "_kd_tree.cpython-310-x86_64-linux-gnu.so": 68.17,
+      "libm.so.6": 30.09,
+      "_heap.cpython-310-x86_64-linux-gnu.so": 1.16,
+      "[unknown]": 0.53,
+      "libc.so.6": 0.03,
+      "python3.10": 0.0
+    },
+    "sklearn_top_symbols_pct": {
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_12BinaryTree64__query_single_depthfirst": 56.63,
+      "__ieee754_pow_fma": 20.54,
+      "pow@GLIBC_2.2.5": 8.73,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_min_rdist64": 8.66,
+      "__pyx_f_7sklearn_9neighbors_8_kd_tree_15NeighborsHeap64__push": 2.22,
+      "__pyx_fuse_1__pyx_f_7sklearn_5utils_5_heap_heap_push": 1.16,
+      "__pow_finite@GLIBC_2.15@plt": 0.82,
+      "pow@plt": 0.66,
+      "0xffffffff8c59ebf6": 0.06,
+      "free@plt": 0.03,
+      "0xffffffff8c374e49": 0.03,
+      "0xffffffff8c2aee05": 0.03
+    }
+  }
+]
